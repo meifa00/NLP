@@ -163,7 +163,7 @@ def get_conversational_chain(model_name):
     
     model_mapping = {
         "Gemma 2": OllamaLLM(model="gemma2:9b"),
-        "Llama 3.1": OllamaLLM(model="llama3.1:8b"),
+        "Llama 3.1": OllamaLLM(model="llama3.1:latest"),
         "Mistral": OllamaLLM(model="mistral:7b"),
         "Qwen 2": OllamaLLM(model="qwen2:7b")
     }
@@ -292,6 +292,18 @@ def main():
         # Check if there is any chat history for the selected file
         if len(file_specific_history) > 0:
             st.subheader(f"🕒 Chat History")
+
+            # Generate the download file name based on the selected file
+            base_file_name = selected_file.rsplit(".", 1)[0]  # Remove the .pdf extension
+            download_file_name = f"{base_file_name}.txt"
+
+            # Convert chat history to text for download
+            chat_history_text = "\n".join(
+            f"Q: {chat['question']}\nA: {chat['response']}\n"
+            for chat in file_specific_history
+            )
+
+            st.download_button(label="Download Chat History", data=chat_history_text, file_name=download_file_name, mime="text/plain")
             for idx, chat in enumerate(file_specific_history):
                 # Use the question text as the title of each chat in the expander
                 with st.expander(f"Q: {chat['question']}"):
