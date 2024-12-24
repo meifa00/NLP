@@ -163,7 +163,7 @@ def get_conversational_chain(model_name):
     
     model_mapping = {
         "Gemma 2": OllamaLLM(model="gemma2:9b"),
-        "Llama 3.1": OllamaLLM(model="llama3.1:latest"),
+        "Llama 3.1": OllamaLLM(model="llama3.1:8b"),
         "Mistral": OllamaLLM(model="mistral:7b"),
         "Qwen 2": OllamaLLM(model="qwen2:7b")
     }
