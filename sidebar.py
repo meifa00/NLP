@@ -6,8 +6,34 @@ from pptx import Presentation
 import tempfile
 import requests
 import streamlit as st
+import string
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 ALLOWED_EXTENSIONS = ['.pdf', '.docx', '.doc', '.txt', '.ppt', '.csv', '.html', '.xls', '.xlsx']
+
+def preprocess_text(text):
+    # Lowercase
+    text = text.lower()
+    # Remove punctuation
+    text = text.translate(str.maketrans("", "", string.punctuation))
+    # Remove special characters (not alphanumeric)
+    text = ''.join(e for e in text if e.isalnum() or e.isspace())
+    # Tokenization
+    tokens = word_tokenize(text)
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    tokens = [word for word in tokens if word not in stop_words]
+    # Lemmatization
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+    return ' '.join(tokens)
 
 def get_pdf_display_string(pdf_file_path):
     with open(pdf_file_path, 'rb') as pdf_file:
@@ -79,10 +105,10 @@ def sidebar():
                 elif file_ext == ".txt":
                     with open(file_path, 'r') as file:
                         text_content = file.read()
-                        st.text_area("", text_content, height=300)
+                        st.text_area("", preprocess_text(text_content), height=300)
                 elif file_ext == ".docx" or file_ext == ".doc":
                     document_text = get_docx_text(file_path)
-                    st.text_area("", document_text, height=300)
+                    st.text_area("", preprocess_text(document_text), height=300)
                 elif file_ext == ".csv":
                     df = pd.read_csv(file_path)
                     st.dataframe(df)
