@@ -1,6 +1,6 @@
 import streamlit as st
-from components.sidebar import sidebar
-from components.utils import (
+from sidebar import sidebar
+from utils import (
     initialize_state,
     load_qa_chain,
     format_chat_history,
