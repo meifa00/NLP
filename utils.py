@@ -92,7 +92,7 @@ def create_conversational_chain(vector_store):
     human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
     qa_prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
     memory = ConversationBufferMemory(memory_key='chat_history',return_messages=True)
-    qa_chain = ConversationalRetrievalChain.from_llm(llm=OllamaLLM(model="llama3.1:8b"), retriever=vector_store.as_retriever(), memory=memory, combine_docs_chain_kwargs={'prompt': qa_prompt})
+    qa_chain = ConversationalRetrievalChain.from_llm(llm=OllamaLLM(model="gemma2:9b"), retriever=vector_store.as_retriever(), memory=memory, combine_docs_chain_kwargs={'prompt': qa_prompt})
     return qa_chain
 
 def initialize_state():
