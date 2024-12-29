@@ -54,7 +54,7 @@ hstspreload==2024.12.1
 html2text==2024.2.26
 httpcore==1.0.7
 httplib2==0.22.0
-httpx==0.27.2
+httpx==0.13.3
 httpx-sse==0.4.0
 huggingface-hub==0.27.0
 hyperframe==5.2.0
